@@ -48,7 +48,7 @@ public class SettingsInternalFrame extends JInternalFrame
         centralPanel = new JPanel();
         centralPanel.setLayout(new GridBagLayout());
         GridBagConstraints gk = new GridBagConstraints();
-        gk.fill = GridBagConstraints.HORIZONTAL;
+        gk.fill = GridBagConstraints.BOTH;
         gk.insets = new Insets(10, 10, 10, 10);
         add(centralPanel, BorderLayout.CENTER);
         //#endregion

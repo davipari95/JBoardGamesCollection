@@ -19,11 +19,14 @@ public class MainFrame extends JFrame
         fileTranslatableMenu,
         gameTranslatableMenu,
         optionsTranslatableMenu,
-        gameChessTranslatableMenu;
+        gameChessTranslatableMenu,
+        gameChessLanTranslatableMenu;
     JTranslatableMenuItem
         optionsSettingsTranslatableMenuItem,
         gameChessHotseatJTranslatableMenuItem,
-        gameChessOpenRulesTranslatableMenuItem;
+        gameChessOpenRulesTranslatableMenuItem,
+        gameChessLanCreateGameTranslatableMenuItem,
+        gameChessLanJoinGameTranslatableMenuItem;
     JSeparator
         gameChessSeparator;
     MyActionListener
@@ -60,11 +63,6 @@ public class MainFrame extends JFrame
         setJMenuBar(menuBar);
         //#endregion
 
-        /*//#region fileTranslatableMenu
-        fileTranslatableMenu = new JTranslatableMenu(29);
-        menuBar.add(fileTranslatableMenu);
-        //#endregion*/
-
         //#region gameTranslatableMenu
         gameTranslatableMenu = new JTranslatableMenu(30);
         menuBar.add(gameTranslatableMenu);
@@ -83,6 +81,7 @@ public class MainFrame extends JFrame
 
         //#region gameChessTranslatableMenu
         gameChessTranslatableMenu = new JTranslatableMenu(35);
+        gameChessTranslatableMenu.setIcon(Enums.GameEnum.CHESS.getFavIcon());
         gameTranslatableMenu.add(gameChessTranslatableMenu);
         //#endregion
 
@@ -90,6 +89,23 @@ public class MainFrame extends JFrame
         gameChessHotseatJTranslatableMenuItem = new JTranslatableMenuItem(3);
         gameChessHotseatJTranslatableMenuItem.addActionListener(myActionListener);
         gameChessTranslatableMenu.add(gameChessHotseatJTranslatableMenuItem);
+        //#endregion
+
+        //#region gameChessLanTranslatableMenu
+        gameChessLanTranslatableMenu = new JTranslatableMenu(4);
+        gameChessTranslatableMenu.add(gameChessLanTranslatableMenu);
+        //#endregion
+
+        //#region gameChessLanCreateGameTranslatableMenuItem
+        gameChessLanCreateGameTranslatableMenuItem = new JTranslatableMenuItem(24);
+        gameChessLanCreateGameTranslatableMenuItem.addActionListener(myActionListener);
+        gameChessLanTranslatableMenu.add(gameChessLanCreateGameTranslatableMenuItem);
+        //#endregion
+    
+        //#region gameChessLanJoinGameTranslatableMenuItem
+        gameChessLanJoinGameTranslatableMenuItem = new JTranslatableMenuItem(25);
+        gameChessLanJoinGameTranslatableMenuItem.addActionListener(myActionListener);
+        gameChessLanTranslatableMenu.add(gameChessLanJoinGameTranslatableMenuItem);
         //#endregion
 
         //#region gameChessSeparator
@@ -131,6 +147,13 @@ public class MainFrame extends JFrame
             if (e.getSource() == gameChessOpenRulesTranslatableMenuItem)
             {
                 UFiles.openHtmlFileWithDefaultBrowser(GameEnum.CHESS.getRulePath(true));
+            }
+
+            if (e.getSource() == gameChessLanCreateGameTranslatableMenuItem)
+            {
+                ChessLanServerSettingsInternalFrame frame = new ChessLanServerSettingsInternalFrame();
+                GlobalMain.mdiPane.add(frame);
+                frame.setVisible(true);
             }
         }
     }
