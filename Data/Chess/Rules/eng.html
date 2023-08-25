@@ -1,0 +1,248 @@
+<html>
+    <head>
+        <style>
+            html
+            {
+                font-family: 'Times New Roman', Times, serif
+            }
+            .center 
+            {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .center-side
+            {
+                display: inline-block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #tCenter
+            {
+                text-align: center;
+            }
+        </style>
+        <title>
+            Chess rules
+        </title>
+    </head>
+    <body>
+    <body>
+        <h1>JChess - Rules</h1>
+
+        <h2>Index</h2>
+        <ul>
+            <li>
+                <a href="#game_goal">Game goal</a>
+            </li>
+            </li>
+            <li>
+                <a href="#how_to_play">How to play</a>
+                <ul>
+                    <li>
+                        <a href="#pieces_movements">Pieces movements</a>
+                        <ul>
+                            <li>
+                                <a href="#rook_movements">Rook</a>
+                            </li>
+                            <li>
+                                <a href="#bishop_movements">Bishop</a>
+                            </li>
+                            <li>
+                                <a href="#queen_movements">Queen</a>
+                            </li>
+                            <li>
+                                <a href="#knight_movements">Knight</a>
+                            </li>
+                            <li>
+                                <a href="#pawn_movements">Pawn</a>
+                            </li>
+                            <li>
+                                <a href="#king_movements">King</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#special_movements">Special movements</a>
+                        <ul>
+                            <li>
+                                <a href="#castling_movement">Castling</a>
+                            </li>
+                            <li>
+                                <a href="#en_passant_movement">En-passant</a>
+                            </li>
+                            <li>
+                                <a href="#promotion_movement">Promotion</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div id="game_goal"><h2>Game goal</h2></div>
+        Being able to checkmate the opponent.
+
+        <div id="how_to_play"><h2>How to play</h2></div>
+
+        <p>
+            The chess board has 64 "boxes" (or "houses"), 32 light and 32 dark, and is oriented so that there is a light box at the bottom right, as shown in the figure .
+        </p>
+
+        <img src="pictures/chessboard.png" width="200px" class="center"/>
+
+        <p>
+            The initial arrangement of the pieces is the one reproduced in the image below. 
+            The white queen is in a light square, the black queen in a dark square.
+            It is played in two.
+            Players take turns.
+            Each player has only one move per turn.
+            White starts.
+        </p>
+
+        <img src="pictures/initial.png" width="200px" class="center"/>
+
+        <p>
+            Each chess piece moves in precise ways.
+            No piece can go to occupy a square where there is another piece of the same alignment, it can instead move to a square occupied by an opposing piece, in this case making a "capture", i.e. eliminating the opposing piece from the board and taking its place.
+        </p>
+
+        <div id="pieces_movements"><h3>Pieces movements</h3></div>
+        
+        <div id="rook_movements"><h4>Rook</h4></div>
+
+        <p>
+            The rook moves to any square in the same row or column it is in, provided that there are no pieces (allies or opponents) between the arrival and departure squares and provided that the arrival square is not occupied by a piece of the same alignment.
+        </p>
+
+        <img src="pictures/rook_movements.png" width="200px" class="center"/>
+
+        <div id="bishop_movements"><h4>Bishop</h4></div>
+
+        <p>
+            The bishop moves to any square on the same diagonals as it is, provided that there are no pieces (allies or opponents) between the arrival and departure squares and provided that the arrival square is not occupied by a piece of the same alignment.
+            The bishop never changes the color of the squares in which it moves, for this reason it can be said that each player at the beginning of the game has a light field bishop and a dark field bishop.
+        </p>
+
+        <img src="pictures/bishop_movements.png" width="200px" class="center"/>
+
+        <div id="queen_movements"><h4>Queen</h4></div>
+
+        <p>
+            The queen combines the moves of the bishop and the rook, being able to move on all the squares of the same row, of the same column or of the same diagonals, provided that there are no pieces (allies or opponents) between the arrival square and the starting square; and provided that the arrival square is not occupied by a piece of the same alignment.
+        </p>
+
+        <img src="pictures/queen_movements.png" width="200px" class="center"/>
+
+        <div id="knight_movements"><h4>Knight</h4></div>
+
+        <p>
+            The knight moves in an "L" shape, 
+            that is, 
+            it moves either two squares horizontally and one square vertically or one square horizontally and two squares vertically; 
+            all provided that the arrival square is not occupied by one of its own pieces. 
+            The knight can move even if there are other pieces in the way.
+        </p>
+
+        <img src="pictures/knght_movements.png" width="200px" class="center"/>
+
+        <div id="pawn_movements"><h4>Pawn</h4></div>
+
+        <p>
+            The pawn is the most difficult piece in terms of movement. 
+            On its first move 
+            (i.e. when it is in its initial position) 
+            the pawn can move one or two squares further, 
+            as chosen by the player, 
+            provided that there are no pieces 
+            (allies or opponents) 
+            between the arrival square and the starting square and that the arrival box is free. 
+            In its subsequent moves, 
+            the pawn can only move one square at a time, 
+            provided that this square is free. 
+            Unlike other pieces, 
+            the pawn cannot go back. 
+            The pawn is also the only piece that captures in a different way than how it moves: 
+            it can capture an enemy piece only if it is on one of the two squares diagonally forward of its starting square, 
+            but it can neither move into those squares if they are free and neither capture the pieces that are in the squares in front of him.
+        </p>
+
+        <img src="pictures/pawn_movements.png" width="200px" class="center"/>
+
+        <div id="king_movements"><h4>King</h4></div>
+
+        <p>
+            The king is the most important piece in the game. 
+            It can never be captured, 
+            but only "threatened", 
+            in which case the king is said to be in check. 
+            The king can move to any square adjacent to him, 
+            provided that the arrival square does not have its own piece and that once it has arrived it is not in check.
+        </p>
+
+        <img src="pictures/king_movements.png" width="200px" class="center"/>
+
+        <div id="special_movements"><h3>Special movments</h3></div>
+
+        <div id="castling_movement"><h4>Castling</h4></div>
+
+        <p>
+            Castling is the only move that allows the king to move two squares.<br>
+            To castling, the following conditions must be met:
+            <ul>
+                <li>The king must not have moved yet;</li>
+                <li>The king must not be in check;</li>
+                <li>The castle rook must not have been moved yet;</li>
+                <li>Between the king and the rook there must be no pieces, neither allies or opponents;</li>
+                <li>The cells that the king has to go through must not be threatened.</li>
+            </ul>
+            If you meet all of the above requirements then you can proceed to castling. 
+            Move the king two squares towards the rook and then move the rook to the other side of the king.
+        </p>
+
+        <p id="tCenter">
+            <img src="pictures/long_castling_phase_1.png" width="200px" class="center-side"/>
+            <img src="pictures/long_castling_phase_2.png" width="200px" class="center-side"/>
+        </p>
+        <p id="tCenter">
+            <img src="pictures/short_castling_phase_1.png" width="200px" class="center-side"/>
+            <img src="pictures/short_castling_phase_2.png" width="200px" class="center-side"/>
+        </p>
+
+        <div id="en_passant_movement"><h4>En-passant</h4></div>
+
+        <p>
+            The en-passant is a special move made by the pawn.<br/>
+            To proceed with the capture, the following conditions must be met:
+            <ul>
+                <li>The opponent's pawn is alongside to allied pawn;</li>
+                <li>The opponent's pawn has just been moved;</li>
+                <li>The opponent's pawn has been moved for the first time;</li>
+                <li>The opposing pawn has moved two squares forward.</li>
+            </ul>
+            If all the requirements listed above are met, 
+            then the capture can proceed, 
+            as if the opponent's pawn had moved one square instead of two.
+        </p>
+
+        <p id="tCenter">
+            <img src="pictures/en_passant_phase_1.png" width="200px" class="center-side"/>
+            <img src="pictures/en_passant_phase_2.png" width="200px" class="center-side"/>
+            <img src="pictures/en_passant_phase_3.png" width="200px" class="center-side"/>
+        </p>
+
+        <div id="promotion_movement"><h4>Promotion</h4></div>
+
+        <p>
+            A pawn, when it reaches the end of the board, can be promoted to another piece.<br/>
+            A pawn can be promoted into one of the following pieces:
+            <ul>
+                <li>Queen</li>
+                <li>Rook</li>
+                <li>Bishop</li>
+                <li>Knight</li>
+            </ul>
+        </p>
+
+    </body>
+</html>

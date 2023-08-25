@@ -1,0 +1,227 @@
+<html>
+    <head>
+        <style>
+            html
+            {
+                font-family: 'Times New Roman', Times, serif
+            }
+            .center 
+            {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .center-side
+            {
+                display: inline-block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #tCenter
+            {
+                text-align: center;
+            }
+        </style>
+        <title>
+            Regole degli scacchi
+        </title>
+    </head>
+    <body>
+        <h1>JChess - Regole</h1>
+
+        <h2>Indice</h2>
+        <ul>
+            <li>
+                <a href="#game_goal">Obbiettivo del gioco</a>
+            </li>
+            <li>
+                <a href="#how_to_play">Come si gioca</a>
+                <ul>
+                    <li>
+                        <a href="#pieces_movements">Movimento dei pezzi</a>
+                        <ul>
+                            <li>
+                                <a href="#rook_movements">Torre</a>
+                            </li>
+                            <li>
+                                <a href="#bishop_movements">Alfiere</a>
+                            </li>
+                            <li>
+                                <a href="#queen_movements">Regina</a>
+                            </li>
+                            <li>
+                                <a href="#knight_movements">Cavallo</a>
+                            </li>
+                            <li>
+                                <a href="#pawn_movements">Pedone</a>
+                            </li>
+                            <li>
+                                <a href="#king_movements">Re</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#special_movements">Mosse speciali</a>
+                        <ul>
+                            <li>
+                                <a href="#castling_movement">Arrocco</a>
+                            </li>
+                            <li>
+                                <a href="#en_passant_movement">Cattura al varco (en-passant)</a>
+                            </li>
+                            <li>
+                                <a href="#promotion_movement">Promozione</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div id="game_goal"><h2>Obbiettivo del gioco</h2></div>
+        Riuscire fare scacco matto all'avversario.
+
+        <div id="how_to_play"><h2>Come si gioca</h2></div>
+
+        <p>
+            Il tavoliere del gioco degli scacchi, detta "scacchiera", da 64 "caselle" (o "case"), 32 chiare e 32 scure, ed &egrave; orientato in modo che in basso a destra vi sia una casella chiara, come mostrato in figura.
+        </p>
+
+        <img src="pictures/chessboard.png" width="200px" class="center"/>
+
+        <p>
+            La disposizione iniziale dei pezzi è quella riprodotta nell'immagine sottostante. 
+            La regina bianca si trova in una casella chiara, la regina nera in una casella scura. 
+            Si gioca in due. 
+            I giocatori giocano a turno. 
+            Ogni giocatore ha una sola mossa per turno. 
+            Inizia il bianco.
+        </p>
+
+        <img src="pictures/initial.png" width="200px" class="center"/>
+
+        <p>
+            Ciascun pezzo degli scacchi si muove con precise modalit&agrave;.
+            Nessun pezzo pu&ograve; andare ad occupare una casa in cui &egrave; presente un altro pezzo dello stesso schieramento, pu&ograve; invece muoversi su una casa occupata da una pezzo avversario, effettuando in tal caso una "cattura", cioè eliminando dalla scacchiera il pezzo avversario e prendendo il suo posto.
+        </p>
+
+        <div id="pieces_movements"><h3>Movimento dei pezzi</h3></div>
+        
+        <div id="rook_movements"><h4>Torre</h4></div>
+
+        <p>
+            La torre si muove su una qualunque casella della stessa riga o della stessa colonna in cui si trova, a patto che tra la casella di arrivo e quella di partenza non vi siano pezzi (propri o avversari) e purch&eacute; la casella di arrivo non sia occupata da un proprio pezzo.
+        </p>
+
+        <img src="pictures/rook_movements.png" width="200px" class="center"/>
+
+        <div id="bishop_movements"><h4>Alfiere</h4></div>
+
+        <p>
+            L'alfiere si muove su una qualunque casa delle stesse diagonali in cui si trova, a patto che tra la casella di arrivo e quella di partenza non vi siano pezzi (propri o avversari) e purch&eacute; la casella di arrivo non sia occupata da un proprio pezzo.
+            L'alfiere non cambia mai il colore delle caselle in cui si muove, per questo motivo si pu&ograve; dire che ciascun giocatore ad inizio partita dispone di un alfiere di campo chiaro e di un alfiere di campo scuro.
+        </p>
+
+        <img src="pictures/bishop_movements.png" width="200px" class="center"/>
+
+        <div id="queen_movements"><h4>Regina</h4></div>
+
+        <p>
+            La regina combina le mosse dell'alfiere e della torre, potendo muoversi su tutte le caselle della stessa riga, della stessa colonna o delle stesse diagonali, a patto che tra la casella di arrivo e quella di partenza non vi siano pezzi (propri o avversari) e purch&egrave; la casella di arrivo non sia occupata da un proprio pezzo.
+        </p>
+
+        <img src="pictures/queen_movements.png" width="200px" class="center"/>
+
+        <div id="knight_movements"><h4>Cavallo</h4></div>
+
+        <p>
+            Il cavallo si muove ad "L", ovvero, si muove o di due caselle in senso orizzontale e una in senso verticale oppure di una casella in senso orizzontale e due in senso verticale; il tutto a patto che la casella di arrivo non sia occupata da un proprio pezzo.
+            Il cavallo pu&ograve; muoversi anche se ci sono altri pezzi in mezzo.
+        </p>
+
+        <img src="pictures/knght_movements.png" width="200px" class="center"/>
+
+        <div id="pawn_movements"><h4>Pedone</h4></div>
+
+        <p>
+            Il pedone &egrave; il pezzo pi&ugrave; difficile in termini di movimento.
+            Alla sua prima mossa (ovvero quando si trova alla posizione iniziale) il pedone pu&ograve; muoversi di una o due caselle più avanti, a scelta dal giocatore, purch&eacute; tra la casella di arrivo e la casella di partenza non ci siano pezzi (propri o avversari) e che la casella di arrivo sia libera.
+            Nelle sue mosse successive il pedone pu&ograve; muoversi solo di una casella per volta, a patto che questa sia libera.
+            A differenza degli altri pezzi, il pedone non pu&ograve; tornare indietro.
+            Il pedone &egrave; anche l'unico pezzo che cattura in modo differente da come si muove: pu&ograve; catturare un pezzo nemico solo se si trova su una delle due caselle diagonalmente in avanti rispetto alla sua casella di partenza, ma non pu&ograve; n&eacute; muovere in tali caselle se esse sono libere e n&eacute; catturare i pezzi che si trovano nelle caselle che ha di fronte.
+        </p>
+
+        <img src="pictures/pawn_movements.png" width="200px" class="center"/>
+
+        <div id="king_movements"><h4>Re</h4></div>
+
+        <p>
+            Il re &egrave; il pezzo pi&ugrave; importante del gioco.
+            Esso non pu&ograve; mai essere catturato, ma solo "minacciato", in tal caso si dice che il re &egrave; sotto scacco.
+            Il re pu&ograve; muoversi in quasiasi casella a lui adiacente, a patto che la casella di arrivo non ci sia un proprio pezzo e che una volta arrivato non sia sotto scacco.
+        </p>
+
+        <img src="pictures/king_movements.png" width="200px" class="center"/>
+
+        <div id="special_movements"><h3>Mosse speciali</h3></div>
+
+        <div id="castling_movement"><h4>Arrocco</h4></div>
+
+        <p>
+            L'arrocco &egrave; l'unica mossa che permette al re di moversi di due caselle.<br>
+            Per procedere all'arrocco bisogna soddisfare le seguenti condizioni:
+            <ul>
+                <li>Il re non deve essere stato ancora mosso;</li>
+                <li>Il re non deve essere sotto scacco;</li>
+                <li>La torre arroccante non deve essere stata ancora mossa;</li>
+                <li>Tra il re e la torre non ci devono essere pezzi, n&eacute; propri e n&eacute;; avversari;</li>
+                <li>Le celle che il re deve attraversare non devono essere minacciate.</li>
+            </ul>
+            Se si soddisfano tutti i requisiti elencati qui sopra, allora si pu&ograve; procedere all'arrocco.
+            Spostare il re di due caselle verso la torre e quindi spostare la torre dall'altra parte del re.
+        </p>
+
+        <p id="tCenter">
+            <img src="pictures/long_castling_phase_1.png" width="200px" class="center-side"/>
+            <img src="pictures/long_castling_phase_2.png" width="200px" class="center-side"/>
+        </p>
+        <p id="tCenter">
+            <img src="pictures/short_castling_phase_1.png" width="200px" class="center-side"/>
+            <img src="pictures/short_castling_phase_2.png" width="200px" class="center-side"/>
+        </p>
+
+        <div id="en_passant_movement"><h4>Cattura al varco (en-passant)</h4></div>
+
+        <p>
+            La cattura al varco &egrave; una mossa speciale fatta dal pedone.<br/>
+            Per procedere alla cattura bisogna soddisfare le seguenti condizioni:
+            <ul>
+                <li>Il pedone avversario si trovi al fianco del proprio pedone;</li>
+                <li>Il pedone avversario sia stato appena mosso;</li>
+                <li>Il pedone avversario sia stato mosso per la prima volta;</li>
+                <li>Il pedone avversario si sia mosso di due caselle in avanti.</li>
+            </ul>
+            Se si soddisfano tutti i requisiti elencati qui sopra, allora si pu&ograve; procedere alla cattura, come se il pedone avversario si fosse spostato di una casella anzich&eacute; di due.
+        </p>
+
+        <p id="tCenter">
+            <img src="pictures/en_passant_phase_1.png" width="200px" class="center-side"/>
+            <img src="pictures/en_passant_phase_2.png" width="200px" class="center-side"/>
+            <img src="pictures/en_passant_phase_3.png" width="200px" class="center-side"/>
+        </p>
+
+        <div id="promotion_movement"><h4>Promozione</h4></div>
+
+        <p>
+            Un pedone, quando arriva in fondo alla scacchiera, pu&ograve; essere promosso in un'altro pezzo.<br/>
+            Un pedone pu&ograve; essere promosso in uno dei seguenti pezzi:
+            <ul>
+                <li>Regina</li>
+                <li>Torre</li>
+                <li>Alfiere</li>
+                <li>Cavallo</li>
+            </ul>
+        </p>
+
+    </body>
+</html>
