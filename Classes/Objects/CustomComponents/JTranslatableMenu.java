@@ -9,9 +9,10 @@ public class JTranslatableMenu extends JMenu implements ITranslatable
     private long languageReference = 0;
     private Object[] args;
 
-    public JTranslatableMenu(long languageReference)
+    public JTranslatableMenu(long languageReference, Object... args)
     {
         this.languageReference = languageReference;
+        this.args = args;
     }
 
     public JTranslatableMenu(String text)

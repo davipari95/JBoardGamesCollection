@@ -9,9 +9,10 @@ public class JTranslatableButton extends JButton implements ITranslatable
     private long languageReference = 0;
     private Object[] args;
 
-    public JTranslatableButton(long languageReference)
+    public JTranslatableButton(long languageReference, Object... args)
     {
         this.languageReference = languageReference;
+        this.args = args;
     }
 
     public JTranslatableButton(String text)

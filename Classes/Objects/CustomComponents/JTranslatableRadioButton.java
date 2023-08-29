@@ -1,23 +1,23 @@
 package Classes.Objects.CustomComponents;
 
-import javax.swing.JLabel;
-
+import javax.swing.*;
 import Interfaces.ITranslatable;
 
-public class JTranslatableLabel extends JLabel implements ITranslatable
+public class JTranslatableRadioButton extends JRadioButton implements ITranslatable
 {
-    private long languageReference = 0;
+
+    long languageReference = 0;
     Object[] args;
 
-    public JTranslatableLabel(long languageReference, Object... args)
+    public JTranslatableRadioButton(long languageReference, Object... args)
     {
         this.languageReference = languageReference;
         this.args = args;
     }
 
-    public JTranslatableLabel(String text)
+    public JTranslatableRadioButton(String text)
     {
-        setText(text);
+        super(text);
     }
 
     @Override
@@ -46,6 +46,5 @@ public class JTranslatableLabel extends JLabel implements ITranslatable
     {
         this.args = args;
     }
-
     
 }

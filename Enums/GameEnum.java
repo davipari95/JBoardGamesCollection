@@ -18,6 +18,7 @@ public enum GameEnum
     {
         this.rulePath = rulePath;
         this.faviconPath = faviconPath;
+        this.startingPort = startingPort;
     }
 
     public String getRulePath(boolean showFileName)
