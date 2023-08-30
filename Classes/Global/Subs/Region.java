@@ -112,15 +112,19 @@ public class Region
     public void translateITranslatableElement(ITranslatable e)
     {
         long languageId = e.getLanguageReference();
-        String text = getTranslatedText(languageId, e.getArgs());
+        
+        if (languageId != 0)
+        {
+            String text = getTranslatedText(languageId, e.getArgs());
 
-        if (e instanceof JLabel)
-        {
-            ((JLabel)e).setText(text);
-        }
-        else if (e instanceof AbstractButton)
-        {
-            ((AbstractButton)e).setText(text);
+            if (e instanceof JLabel)
+            {
+                ((JLabel)e).setText(text);
+            }
+            else if (e instanceof AbstractButton)
+            {
+                ((AbstractButton)e).setText(text);
+            }
         }
     }
 

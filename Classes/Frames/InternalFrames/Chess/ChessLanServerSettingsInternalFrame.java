@@ -1,11 +1,11 @@
 package Classes.Frames.InternalFrames.Chess;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
+import javax.swing.border.*;
 import Classes.Global.*;
+import Classes.Global.Subs.Region.*;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
 
@@ -15,7 +15,8 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
     JTranslatableLabel
         ipAddressTranslatableLabel,
         portTranslatableLabel,
-        playerNameTranslatableLabel;
+        playerNameTranslatableLabel,
+        infoTranslatableLabel;
     JPanel
         centralPanel,
         playAsPanel;
@@ -36,20 +37,32 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
     JTranslatableRadioButton
         playAsWhitesTranslatableRadioButton,
         playAsBlacksTranslatableRadioButton;
+    TitledBorder
+        playAsTitledBorder;
+    ButtonGroup
+        playAsButtonGroup;
+    JTranslatableButton
+        listenTranslatableButton;
+    MyActionListener
+        myActionListener = new MyActionListener();
+    MyRegionListener
+        myRegionListener = new MyRegionListener();
 
     public ChessLanServerSettingsInternalFrame()
     {
-        super("", !false, true, false, true);
+        super("", false, true, false, true);
 
         initializeComponents();
 
         translate();
+
+        GlobalMain.sRegion.addRegionListener(myRegionListener);
     }
 
     private void initializeComponents()
     {
         //#region this
-        setSize(800, 600);
+        getContentPane().setPreferredSize(new Dimension(230, 240));
         //#endregion
 
         //#region centralPanel
@@ -62,7 +75,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         //#endregion
 
         //#region ipAddressTranslatableLabel
-        ipAddressTranslatableLabel = new JTranslatableLabel(27);
+        ipAddressTranslatableLabel = new JTranslatableLabel(27); //"IP address:"
         gbc.gridx = 0;
         gbc.gridy = 0;
         centralPanel.add(ipAddressTranslatableLabel, gbc);
@@ -77,7 +90,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         //#endregion
         
         //#region portTranslatableLabel
-        portTranslatableLabel = new JTranslatableLabel(28);
+        portTranslatableLabel = new JTranslatableLabel(28); //"Port:"
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -92,7 +105,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         //#endregion
 
         //#region playerNameTranslatableLabel
-        playerNameTranslatableLabel = new JTranslatableLabel(38);
+        playerNameTranslatableLabel = new JTranslatableLabel(38); //"Player name:"
         gbc.gridx = 0;
         gbc.gridy = 2;
         centralPanel.add(playerNameTranslatableLabel, gbc);
@@ -110,13 +123,47 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
-        //playAsPanel.setBorder(BorderFactory.createTitledBorder(GlobalMain.sRegion.getTranslatedText(41));
+        playAsTitledBorder = BorderFactory.createTitledBorder(GlobalMain.sRegion.getTranslatedText(41));
+        playAsPanel.setBorder(playAsTitledBorder);
+        centralPanel.add(playAsPanel, gbc);
+        //#endregion
+
+        //#region playAsWhitesTranslatableRadioButton
+        playAsWhitesTranslatableRadioButton = new JTranslatableRadioButton(39); //"Whites"
+        playAsWhitesTranslatableRadioButton.setSelected(true);
+        playAsPanel.add(playAsWhitesTranslatableRadioButton);
+        //#endregion
+
+        //#region playAsBlacksTranslatableRadioButton
+        playAsBlacksTranslatableRadioButton = new JTranslatableRadioButton(40); //"Blacks"
+        playAsPanel.add(playAsBlacksTranslatableRadioButton);
+        //#endregion
+
+        //#region playAsButtonGroup
+        playAsButtonGroup = new ButtonGroup();
+        playAsButtonGroup.add(playAsWhitesTranslatableRadioButton);
+        playAsButtonGroup.add(playAsBlacksTranslatableRadioButton);
+        //#endregion
+
+        //#region listenTranslatableButton
+        listenTranslatableButton = new JTranslatableButton(42); //"Listen"
+        listenTranslatableButton.addActionListener(myActionListener);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        centralPanel.add(listenTranslatableButton, gbc);
+        //#endregion
+
+        //#region infoTranslatableLabel
+        infoTranslatableLabel = new JTranslatableLabel(44); //"-"
+        gbc.gridy = 5;
+        centralPanel.add(infoTranslatableLabel, gbc);
         //#endregion
 
         //#region Bottom space
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 6;
         gbc.weighty = 1;
         centralPanel.add(new JPanel(), gbc);
         //#endregion
@@ -129,13 +176,39 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         centralPanel.add(new JPanel(), gbc);
         //#endregion
 
+        pack();
         setLocation(UInternalFrames.retrivePointForCentering(this, GlobalMain.mdiPane));
     }
 
     private void translate()
     {
-        setTitle(GlobalMain.sRegion.getTranslatedText(37));
+        setTitle(GlobalMain.sRegion.getTranslatedText(37)); //"[LAN - SERVER] Chess - Settings"
+        playAsTitledBorder.setTitle(GlobalMain.sRegion.getTranslatedText(41)); //"Play as"
 
         GlobalMain.sRegion.transltateComponentsInContainer(this);
+    }
+
+    private class MyActionListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            if (e.getSource() == listenTranslatableButton)
+            {
+            }
+        }
+        
+    }
+
+    private class MyRegionListener implements RegionListener
+    {
+
+        @Override
+        public void activeLangaugeChangedEvent(String activeLanguage) 
+        {
+            translate();
+        }
+        
     }
 }
