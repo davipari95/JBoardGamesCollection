@@ -86,6 +86,14 @@ public class UDialogs
         int result = JOptionPane.showInternalConfirmDialog(GlobalMain.mdiPane, message, title, dialogType.getValue(), icon.getValue());
 
         return DialogResultEnum.getResultEnum(result);
-    } 
+    }
+
+    public static void showMessageDialogTranslated(long titleId, long messageId, IconTypeEnum icon)
+    {
+        String title = GlobalMain.sRegion.getTranslatedText(titleId);
+        String message = GlobalMain.sRegion.getTranslatedText(messageId);
+
+        JOptionPane.showInternalMessageDialog(GlobalMain.mdiPane, message, title, icon.getValue(), null);
+    }
 
 }

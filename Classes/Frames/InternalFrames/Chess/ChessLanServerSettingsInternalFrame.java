@@ -2,12 +2,15 @@ package Classes.Frames.InternalFrames.Chess;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import Classes.Global.*;
 import Classes.Global.Subs.Region.*;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
+import Classes.Utils.UDialogs.*;
 
 public class ChessLanServerSettingsInternalFrame extends JInternalFrame
 {
@@ -47,6 +50,10 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         myActionListener = new MyActionListener();
     MyRegionListener
         myRegionListener = new MyRegionListener();
+    ServerSocket
+        lanChessServer;
+    ListenServerRunnable
+        serverListenerThread = null;
 
     public ChessLanServerSettingsInternalFrame()
     {
@@ -146,7 +153,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         //#endregion
 
         //#region listenTranslatableButton
-        listenTranslatableButton = new JTranslatableButton(42); //"Listen"
+        listenTranslatableButton = new JTranslatableButton(48); //"Start server"
         listenTranslatableButton.addActionListener(myActionListener);
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -188,6 +195,27 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         GlobalMain.sRegion.transltateComponentsInContainer(this);
     }
 
+    private void updateGUIServerListening(boolean isListening)
+    {
+        infoTranslatableLabel.setLanguageReference(isListening ? 43 : 44);
+        GlobalMain.sRegion.translateITranslatableElement(infoTranslatableLabel);
+
+        listenTranslatableButton.setLanguageReference(isListening ? 47 : 42);
+        GlobalMain.sRegion.translateITranslatableElement(listenTranslatableButton);
+
+        portSpinner.setEnabled(!isListening);
+
+        playerNameTextField.setEnabled(!isListening);
+
+        playAsWhitesTranslatableRadioButton.setEnabled(!isListening);
+        playAsBlacksTranslatableRadioButton.setEnabled(!isListening);
+    }
+
+    private void clientConnectedInvoked(ServerSocket server, Socket client)
+    {
+
+    }
+
     private class MyActionListener implements ActionListener
     {
 
@@ -196,6 +224,27 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         {
             if (e.getSource() == listenTranslatableButton)
             {
+                if (serverListenerThread == null)
+                {
+                    try 
+                    {
+                        int port = (int) portSpinner.getValue();
+                        lanChessServer = new ServerSocket(port);
+                        serverListenerThread = new ListenServerRunnable(lanChessServer);
+                        serverListenerThread.start();
+                    }
+                    catch (IOException ex)
+                    {
+                        UDialogs.showMessageDialogTranslated(45, 46, IconTypeEnum.Error);
+                    }
+                }
+                else 
+                {
+                    serverListenerThread.stopRunning();
+                    serverListenerThread = null;
+                }
+
+                updateGUIServerListening(serverListenerThread != null);
             }
         }
         
@@ -210,5 +259,46 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
             translate();
         }
         
+    }
+
+    private class ListenServerRunnable extends Thread
+    {
+        ServerSocket
+            server;
+
+        public ListenServerRunnable(ServerSocket server)
+        {
+            this.server = server;
+        }
+
+        @Override
+        public void run() 
+        {
+            try 
+            {
+                Socket client = server.accept();
+                clientConnectedInvoked(lanChessServer, client);
+            }
+            catch (SocketException e)
+            {
+                System.out.println("Stop listening");
+            }
+            catch (IOException e) 
+            {
+                UDialogs.showMessageDialogTranslated(45, 46, IconTypeEnum.Error);
+            }
+        }
+        
+        public void stopRunning()
+        {
+            try 
+            {
+                server.close();
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }
