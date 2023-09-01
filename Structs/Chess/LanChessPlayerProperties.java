@@ -36,5 +36,16 @@ public class LanChessPlayerProperties
         return playerColor;
     }
 
-    
+    public String getName()
+    {
+        return playerName;
+    }
+
+    public void setName(String value)
+    {
+        if (value != playerName)
+        {
+            playerName = value;
+        }
+    }
 }

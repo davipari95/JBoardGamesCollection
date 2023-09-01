@@ -2,7 +2,6 @@ package Classes.Frames.InternalFrames.Chess;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -10,7 +9,6 @@ import Classes.Global.*;
 import Classes.Global.Subs.Region.*;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
-import Classes.Utils.UDialogs.*;
 
 public class ChessLanServerSettingsInternalFrame extends JInternalFrame
 {
@@ -18,8 +16,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
     JTranslatableLabel
         ipAddressTranslatableLabel,
         portTranslatableLabel,
-        playerNameTranslatableLabel,
-        infoTranslatableLabel;
+        playerNameTranslatableLabel;
     JPanel
         centralPanel,
         playAsPanel;
@@ -45,15 +42,13 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
     ButtonGroup
         playAsButtonGroup;
     JTranslatableButton
-        listenTranslatableButton;
+        openServerTranslatableButton;
     MyActionListener
         myActionListener = new MyActionListener();
     MyRegionListener
         myRegionListener = new MyRegionListener();
     ServerSocket
         lanChessServer;
-    ListenServerRunnable
-        serverListenerThread = null;
 
     public ChessLanServerSettingsInternalFrame()
     {
@@ -69,7 +64,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
     private void initializeComponents()
     {
         //#region this
-        getContentPane().setPreferredSize(new Dimension(230, 240));
+        getContentPane().setPreferredSize(new Dimension(215, 200));
         //#endregion
 
         //#region centralPanel
@@ -153,24 +148,18 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         //#endregion
 
         //#region listenTranslatableButton
-        listenTranslatableButton = new JTranslatableButton(48); //"Start server"
-        listenTranslatableButton.addActionListener(myActionListener);
+        openServerTranslatableButton = new JTranslatableButton(48); //"Start server"
+        openServerTranslatableButton.addActionListener(myActionListener);
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        centralPanel.add(listenTranslatableButton, gbc);
-        //#endregion
-
-        //#region infoTranslatableLabel
-        infoTranslatableLabel = new JTranslatableLabel(44); //"-"
-        gbc.gridy = 5;
-        centralPanel.add(infoTranslatableLabel, gbc);
+        centralPanel.add(openServerTranslatableButton, gbc);
         //#endregion
 
         //#region Bottom space
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 5;
         gbc.weighty = 1;
         centralPanel.add(new JPanel(), gbc);
         //#endregion
@@ -195,56 +184,14 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         GlobalMain.sRegion.transltateComponentsInContainer(this);
     }
 
-    private void updateGUIServerListening(boolean isListening)
-    {
-        infoTranslatableLabel.setLanguageReference(isListening ? 43 : 44);
-        GlobalMain.sRegion.translateITranslatableElement(infoTranslatableLabel);
-
-        listenTranslatableButton.setLanguageReference(isListening ? 47 : 42);
-        GlobalMain.sRegion.translateITranslatableElement(listenTranslatableButton);
-
-        portSpinner.setEnabled(!isListening);
-
-        playerNameTextField.setEnabled(!isListening);
-
-        playAsWhitesTranslatableRadioButton.setEnabled(!isListening);
-        playAsBlacksTranslatableRadioButton.setEnabled(!isListening);
-    }
-
-    private void clientConnectedInvoked(ServerSocket server, Socket client)
-    {
-
-    }
-
     private class MyActionListener implements ActionListener
     {
 
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if (e.getSource() == listenTranslatableButton)
+            if (e.getSource() == openServerTranslatableButton)
             {
-                if (serverListenerThread == null)
-                {
-                    try 
-                    {
-                        int port = (int) portSpinner.getValue();
-                        lanChessServer = new ServerSocket(port);
-                        serverListenerThread = new ListenServerRunnable(lanChessServer);
-                        serverListenerThread.start();
-                    }
-                    catch (IOException ex)
-                    {
-                        UDialogs.showMessageDialogTranslated(45, 46, IconTypeEnum.Error);
-                    }
-                }
-                else 
-                {
-                    serverListenerThread.stopRunning();
-                    serverListenerThread = null;
-                }
-
-                updateGUIServerListening(serverListenerThread != null);
             }
         }
         
@@ -259,46 +206,5 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
             translate();
         }
         
-    }
-
-    private class ListenServerRunnable extends Thread
-    {
-        ServerSocket
-            server;
-
-        public ListenServerRunnable(ServerSocket server)
-        {
-            this.server = server;
-        }
-
-        @Override
-        public void run() 
-        {
-            try 
-            {
-                Socket client = server.accept();
-                clientConnectedInvoked(lanChessServer, client);
-            }
-            catch (SocketException e)
-            {
-                System.out.println("Stop listening");
-            }
-            catch (IOException e) 
-            {
-                UDialogs.showMessageDialogTranslated(45, 46, IconTypeEnum.Error);
-            }
-        }
-        
-        public void stopRunning()
-        {
-            try 
-            {
-                server.close();
-            } 
-            catch (IOException e) 
-            {
-                e.printStackTrace();
-            }
-        }
     }
 }
