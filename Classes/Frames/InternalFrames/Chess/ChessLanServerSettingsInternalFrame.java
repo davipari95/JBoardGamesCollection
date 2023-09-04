@@ -9,6 +9,8 @@ import Classes.Global.*;
 import Classes.Global.Subs.Region.*;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
+import Interfaces.Chess.*;
+import Interfaces.Chess.IChessPiece.*;
 
 public class ChessLanServerSettingsInternalFrame extends JInternalFrame
 {
@@ -115,6 +117,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
 
         //#region playerNameTextField
         playerNameTextField = new JTextField(6);
+        playerNameTextField.setText(GlobalMain.isDebug() ? "Alberto Bianchi" : "");
         gbc.gridx = 1;
         centralPanel.add(playerNameTextField, gbc);
         //#endregion
@@ -192,6 +195,13 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         {
             if (e.getSource() == openServerTranslatableButton)
             {
+                //TODO: check if player name is ok
+                String playerName = playerNameTextField.getText();
+                IChessPiece.ColorEnum playerColor = playAsWhitesTranslatableRadioButton.isSelected() ? ColorEnum.WHITE : ColorEnum.BLACK;
+
+                ChessLanServerFrame frame = new ChessLanServerFrame(playerName, playerColor);
+                GlobalMain.mdiPane.add(frame);
+                frame.setVisible(true);
             }
         }
         

@@ -2,6 +2,8 @@ package Classes.Frames.InternalFrames.Chess;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import Classes.Global.*;
 import Interfaces.Chess.*;
 
@@ -9,8 +11,14 @@ public class ChessLanServerFrame extends JInternalFrame
 {
     JTextArea
         infoTextArea;
-    Panel
-        centralPanel;
+    JPanel
+        infoPanel;
+    TitledBorder
+        infoTitledBorder;
+    int
+        FRAME_WIDTH = 800,
+        FRAME_HEIGHT = 600,
+        INFOPANEL_WIDTH = 500;
 
     public ChessLanServerFrame(String firstPlayerName, IChessPiece.ColorEnum firstPlayerColor)
     {
@@ -24,20 +32,20 @@ public class ChessLanServerFrame extends JInternalFrame
         //#region this
         setSize(800, 600);
         setTitle(GlobalMain.sRegion.getTranslatedText(49));
+        getContentPane().setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        setLayout(null);
         //#endregion
 
-        //#region centralPanel
-        centralPanel = new Panel();
-        centralPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 10, 5, 10);
-        gbc.fill = GridBagConstraints.VERTICAL;
-        
+        //#region infoPanel
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(1, 1));
+        infoTitledBorder = BorderFactory.createTitledBorder(GlobalMain.sRegion.getTranslatedText(50));
+        infoPanel.setBorder(infoTitledBorder);
+        infoPanel.setLocation(10, 10);
+        infoPanel.setSize(INFOPANEL_WIDTH, FRAME_HEIGHT - (2 * 10));
+        add(infoPanel);
         //#endregion
 
-        //#region infoTextArea
-        infoTextArea = new JTextArea();
-        infoTextArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
-        //#endregion
+        pack();
     }
 }
