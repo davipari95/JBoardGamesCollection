@@ -3,12 +3,18 @@ package Classes.Frames.InternalFrames.Chess;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
+import java.text.DecimalFormat;
+
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
+
 import Classes.Global.*;
 import Classes.Global.Subs.Region.*;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
+import Classes.Utils.UDialogs.IconTypeEnum;
 import Interfaces.Chess.*;
 import Interfaces.Chess.IChessPiece.*;
 
@@ -51,10 +57,14 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         myRegionListener = new MyRegionListener();
     ServerSocket
         lanChessServer;
+    String
+        ipAddress;
 
     public ChessLanServerSettingsInternalFrame()
     {
         super("", false, true, false, true);
+
+        ipAddress = UNet.getLanAddresssString();
 
         initializeComponents();
 
@@ -87,7 +97,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
 
         //#region ipAddressValueLabel
         ipAddressValueLabel = new JLabel();
-        ipAddressValueLabel.setText(UNet.getLanAddresssString());
+        ipAddressValueLabel.setText(ipAddress);
         gbc.gridx = 1;
         gbc.gridy = 0;
         centralPanel.add(ipAddressValueLabel);
@@ -103,6 +113,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
 
         //#region portSpinner
         portSpinner = new JSpinner(spinnerNumberModel);
+        USpinners.removeThousandsSeparator(portSpinner);
         gbc.gridx = 1;
         gbc.gridy = 1;
         centralPanel.add(portSpinner, gbc);
@@ -195,11 +206,18 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
         {
             if (e.getSource() == openServerTranslatableButton)
             {
-                //TODO: check if player name is ok
                 String playerName = playerNameTextField.getText();
-                IChessPiece.ColorEnum playerColor = playAsWhitesTranslatableRadioButton.isSelected() ? ColorEnum.WHITE : ColorEnum.BLACK;
 
-                ChessLanServerFrame frame = new ChessLanServerFrame(playerName, playerColor);
+                if (UStrings.isNullOrEmpty(playerName))
+                {
+                    UDialogs.showMessageDialogTranslated(10, 51, IconTypeEnum.Warning);
+                    return;
+                }
+
+                IChessPiece.ColorEnum playerColor = playAsWhitesTranslatableRadioButton.isSelected() ? ColorEnum.WHITE : ColorEnum.BLACK;
+                int port = (int) portSpinner.getValue();
+
+                ChessLanServerFrame frame = new ChessLanServerFrame(playerName, playerColor, ipAddress, port);
                 GlobalMain.mdiPane.add(frame);
                 frame.setVisible(true);
             }

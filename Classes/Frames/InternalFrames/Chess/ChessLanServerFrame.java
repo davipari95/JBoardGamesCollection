@@ -2,29 +2,48 @@ package Classes.Frames.InternalFrames.Chess;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-
+import javax.swing.border.*;
 import Classes.Global.*;
+import Classes.Objects.CustomComponents.*;
+import Classes.Utils.*;
 import Interfaces.Chess.*;
 
 public class ChessLanServerFrame extends JInternalFrame
 {
     JTextArea
         infoTextArea;
-    JPanel
+    JScrollPane
         infoPanel;
     TitledBorder
         infoTitledBorder;
+    JTranslatableLabel
+        infoTranslatableLabel;
+    String
+        firstPlayerName,
+        ipAddress;
+    int
+        port;
+    IChessPiece.ColorEnum
+        firstPlayerColor;
+
     int
         FRAME_WIDTH = 800,
         FRAME_HEIGHT = 600,
-        INFOPANEL_WIDTH = 500;
+        INFOPANEL_WIDTH = 500,
+        INFOLABEL_WIDTH = 270;
 
-    public ChessLanServerFrame(String firstPlayerName, IChessPiece.ColorEnum firstPlayerColor)
+    public ChessLanServerFrame(String firstPlayerName, IChessPiece.ColorEnum firstPlayerColor, String ipAddress, int port)
     {
-        super("", !false, true, false, true);
+        super("", false, true, false, true);
+
+        this.firstPlayerName = firstPlayerName;
+        this.firstPlayerColor = firstPlayerColor;
+        this.ipAddress = ipAddress;
+        this.port = port;
 
         initializeComponents();
+
+        tranlsate();
     }
 
     private void initializeComponents()
@@ -36,9 +55,14 @@ public class ChessLanServerFrame extends JInternalFrame
         setLayout(null);
         //#endregion
 
+        //#region infoTextArea
+        infoTextArea = new JTextArea();
+        infoTextArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        infoTextArea.setEditable(false);
+        //#endregion
+
         //#region infoPanel
-        infoPanel = new JPanel();
-        infoPanel.setLayout(new GridLayout(1, 1));
+        infoPanel = new JScrollPane(infoTextArea);
         infoTitledBorder = BorderFactory.createTitledBorder(GlobalMain.sRegion.getTranslatedText(50));
         infoPanel.setBorder(infoTitledBorder);
         infoPanel.setLocation(10, 10);
@@ -46,6 +70,22 @@ public class ChessLanServerFrame extends JInternalFrame
         add(infoPanel);
         //#endregion
 
+        //#region infoTranslatableLabel
+        infoTranslatableLabel = new JTranslatableLabel(52, ipAddress, port, firstPlayerName, firstPlayerColor.getName());
+        infoTranslatableLabel.setLocation(10 + INFOPANEL_WIDTH + 10, 10);
+        infoTranslatableLabel.setSize(INFOLABEL_WIDTH, FRAME_HEIGHT - (2 * 10));
+        infoTranslatableLabel.setVerticalAlignment(JTranslatableLabel.TOP);
+        add(infoTranslatableLabel);
+        //#endregion
+
         pack();
+        setLocation(UInternalFrames.retrivePointForCentering(this, GlobalMain.mdiPane));
+    }
+
+    private void tranlsate()
+    {
+        GlobalMain.sRegion.transltateComponentsInContainer(this);
+
+        infoTranslatableLabel.setText(UStrings.convertTextInHtmlString(infoTranslatableLabel.getText()));
     }
 }
