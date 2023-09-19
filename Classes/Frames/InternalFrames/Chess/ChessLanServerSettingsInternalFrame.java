@@ -3,13 +3,8 @@ package Classes.Frames.InternalFrames.Chess;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
-import java.text.DecimalFormat;
-
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
-
 import Classes.Global.*;
 import Classes.Global.Subs.Region.*;
 import Classes.Objects.CustomComponents.*;

@@ -1,6 +1,8 @@
 package Classes.Frames.InternalFrames.Chess;
 
 import java.awt.*;
+import java.io.*;
+import java.net.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import Classes.Global.*;
@@ -87,5 +89,36 @@ public class ChessLanServerFrame extends JInternalFrame
         GlobalMain.sRegion.transltateComponentsInContainer(this);
 
         infoTranslatableLabel.setText(UStrings.convertTextInHtmlString(infoTranslatableLabel.getText()));
+    }
+
+    private class AcceptsClientThread implements Runnable
+    {
+
+        @Override
+        public void run() 
+        {
+            try
+            {
+                ServerSocket server = new ServerSocket(port);
+
+                for (int i=0; i<2; i++)
+                {
+                    Socket client = server.accept();
+
+                    /*
+                        InputStream input = socket.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+                        OutputStream output = socket.getOutputStream();
+                        PrintWriter writer = new PrintWriter(output, true);
+                     */
+                }
+            }
+            catch (IOException ex)
+            {
+                //TODO: IOException - if an I/O error occurs when opening the socket. -> opening chess server
+            }
+        }
+        
     }
 }
