@@ -3,12 +3,15 @@ package Classes.Frames.InternalFrames.Chess;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.text.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import Classes.Global.*;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
 import Interfaces.Chess.*;
+import Structs.Chess.*;
 
 public class ChessLanServerFrame extends JInternalFrame
 {
@@ -27,6 +30,10 @@ public class ChessLanServerFrame extends JInternalFrame
         port;
     IChessPiece.ColorEnum
         firstPlayerColor;
+    Thread
+        acceptFirstPlayerThread;
+    HashMap<LanChessPlayerProperties, Thread>
+        readersThread = new HashMap<>(0);
 
     int
         FRAME_WIDTH = 800,
@@ -46,6 +53,9 @@ public class ChessLanServerFrame extends JInternalFrame
         initializeComponents();
 
         tranlsate();
+
+        acceptFirstPlayerThread = new Thread(new AcceptFirstPlayerClientRunnable());
+        acceptFirstPlayerThread.start();
     }
 
     private void initializeComponents()
@@ -91,7 +101,13 @@ public class ChessLanServerFrame extends JInternalFrame
         infoTranslatableLabel.setText(UStrings.convertTextInHtmlString(infoTranslatableLabel.getText()));
     }
 
-    private class AcceptsClientThread implements Runnable
+    private void printMessage(String message)
+    {
+        String info = String.format("[%s] >> %s\n", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()), message);
+        infoTextArea.append(info);
+    }
+
+    private class AcceptFirstPlayerClientRunnable implements Runnable
     {
 
         @Override
@@ -100,24 +116,97 @@ public class ChessLanServerFrame extends JInternalFrame
             try
             {
                 ServerSocket server = new ServerSocket(port);
+                
+                //ChessLanClientFrame frame = new ChessLanClientFrame(ipAddress, port, firstPlayerName, firstPlayerColor);
 
-                for (int i=0; i<2; i++)
-                {
-                    Socket client = server.accept();
+                Socket client = server.accept();
 
-                    /*
-                        InputStream input = socket.getInputStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                LanChessPlayerProperties player = new LanChessPlayerProperties(1, firstPlayerColor, firstPlayerName, client);
+                Thread listenerThread = new Thread(new ListenClientRunnable(player));
+                readersThread.put(player, listenerThread);
+                listenerThread.start();
 
-                        OutputStream output = socket.getOutputStream();
-                        PrintWriter writer = new PrintWriter(output, true);
-                     */
-                }
+                printMessage(String.format("A client is connected [%s]", client.getInetAddress().getHostAddress()));
             }
             catch (IOException ex)
             {
                 //TODO: IOException - if an I/O error occurs when opening the socket. -> opening chess server
             }
+        }
+
+    }
+
+    private class ListenClientRunnable implements Runnable
+    {
+
+        LanChessPlayerProperties
+            player;
+
+        ListenClientRunnable(LanChessPlayerProperties player)
+        {
+            this.player = player;
+        }
+
+        @Override
+        public void run() 
+        {
+            while (true)
+            {
+                try
+                {
+                    String message = player.getSocketReader().readLine();
+                    String returnMessage = "";
+
+                    if (!UStrings.isNullOrEmpty(message))
+                    {
+                        switch (message)
+                        {
+                            case "ping":
+                                returnMessage = ping();
+                                break;
+
+                            case "retrive-players-names":
+                                returnMessage = retrivePlayersNames();
+                                break;
+
+                            default:
+                                returnMessage = invalid();
+                                break;
+                        }
+                            
+                        player.getSocketWriter().write(returnMessage);
+                        player.getSocketWriter().flush();
+                    }
+                }
+                catch (IOException e)
+                {
+                    //TODO: IOException -> unable to retrive message from client
+                }
+            }
+        }
+
+        private String ping()
+        {
+            return "ACK\npong\r\n";
+        }
+
+        private String invalid()
+        {
+            return "INV\r\n";
+        }
+
+        private String retrivePlayersNames()
+        {
+            String message = "ACK";
+
+            for (LanChessPlayerProperties playerProperties : readersThread.keySet())
+            {
+                message += String.format("\n%d;%s;%s", playerProperties.getNr(), playerProperties.getName(), playerProperties.getColor() == IChessPiece.ColorEnum.WHITE ? "white" : "black");
+            }
+
+            message += "\r\n";
+
+            return message;
         }
         
     }

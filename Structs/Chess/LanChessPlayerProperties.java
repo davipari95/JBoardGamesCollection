@@ -1,5 +1,7 @@
 package Structs.Chess;
 
+import java.io.*;
+import java.net.*;
 import Interfaces.Chess.*;
 
 public class LanChessPlayerProperties 
@@ -10,12 +12,21 @@ public class LanChessPlayerProperties
         playerColor = IChessPiece.ColorEnum.WHITE;
     String 
         playerName = "";
+    Socket
+        playerSocket;
+    PrintWriter
+        socketWriter;
+    BufferedReader
+        socketReader;
 
-    public LanChessPlayerProperties(int playerNr, IChessPiece.ColorEnum playerColor, String playerName)
+    public LanChessPlayerProperties(int playerNr, IChessPiece.ColorEnum playerColor, String playerName, Socket playerSocket) throws IOException
     {
         this.playerNr = playerNr;
         this.playerColor = playerColor;
         this.playerName = playerName;
+        this.playerSocket = playerSocket;
+        socketWriter = new PrintWriter(playerSocket.getOutputStream());
+        socketReader = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
     }
 
     public int getNr()
@@ -47,5 +58,20 @@ public class LanChessPlayerProperties
         {
             playerName = value;
         }
+    }
+
+    public Socket getSocket()
+    {
+        return playerSocket;
+    }
+
+    public PrintWriter getSocketWriter()
+    {
+        return socketWriter;
+    }
+
+    public BufferedReader getSocketReader()
+    {
+        return socketReader;
     }
 }
