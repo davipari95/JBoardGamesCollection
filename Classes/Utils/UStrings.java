@@ -1,5 +1,7 @@
 package Classes.Utils;
 
+import java.util.regex.Pattern;
+
 public class UStrings 
 {
     
@@ -21,6 +23,11 @@ public class UStrings
         s += "</html>";
 
         return s;
+    }
+
+    public static boolean regexMatch(String pattern, String word)
+    {
+        return Pattern.compile(pattern).matcher(word).matches();
     }
 
 }

@@ -1,12 +1,15 @@
 package Classes.Frames.InternalFrames.Chess;
 
+import java.awt.Dimension;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
+
+import Classes.Global.GlobalMain;
 import Classes.Utils.*;
 import Interfaces.Chess.*;
 
-public class ChessLanClientFrame extends JInternalFrame
+public class ChessLanClientInternalFrame extends JInternalFrame
 {
     Socket
         client;
@@ -16,9 +19,16 @@ public class ChessLanClientFrame extends JInternalFrame
         serverListener;
     boolean
         listenServer = false;
+    final int
+        CHESSBOARD_SIZE = 800,
+        GRID_SIZE = CHESSBOARD_SIZE / 8,
+        GRID_PADDING = 5,
+        INFO_LABEL_HEIGHT = 30;
 
-    public ChessLanClientFrame(String ipAddress, int port, String playerName, IChessPiece.ColorEnum playerColor)
+    public ChessLanClientInternalFrame(String ipAddress, int port, String playerName, IChessPiece.ColorEnum playerColor)
     {
+        super("", false, true, false, true);
+
         try
         {
             client = new Socket(ipAddress, port);
@@ -34,11 +44,29 @@ public class ChessLanClientFrame extends JInternalFrame
             UDialogs.showMessageDialogTranslated(45, 53, UDialogs.IconTypeEnum.Error);
             dispose();
         }
+
+        initializeComponents();
+
+        translate();
     }
 
     private void initializeComponents()
     {
+        //#region this
+        getContentPane().setPreferredSize(new Dimension(CHESSBOARD_SIZE, CHESSBOARD_SIZE + INFO_LABEL_HEIGHT));
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setLayout(null);
+        //#endregion
 
+        pack();
+        setLocation(UInternalFrames.retrivePointForCentering(this, GlobalMain.mdiPane));
+    }
+
+    private void translate()
+    {
+        setTitle(GlobalMain.sRegion.getTranslatedText(54));
+
+        GlobalMain.sRegion.transltateComponentsInContainer(this);
     }
 
     private class ListenServerRunnable implements Runnable

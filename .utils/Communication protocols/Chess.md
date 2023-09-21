@@ -9,12 +9,21 @@ For example: `ACK\n12345\r\n`.
 
 ### Kind of response:
 - `ACK`: command works properly.
-- `INV`: command doesn't exists.
-- `ERR`: command format is not valid.
+- `INV`: command doesn't exists or is invalid.
 
-## From server to client
+## List of commands
+- [From server to client](#fstc)
+    - [`ping`](#fstc-ping)
+- [From client to server](#fcts)
+    - [`ping`](#fcts-ping)
+    - [`ready-to-play`](#fcts-ready-to-play)
+    - [`retrive-players-names`](#fcts-retrive-players-names)
+    - [`set-player-name '`*`name`*`'`](#fcts-set-player-name)
 
-### `ping`
+
+## From server to client <a id="fstc"></a>
+
+### `ping` <a id="fstc-ping"></a>
 Just for test.<br/> 
 If the communications works well the client will responds with `pong`.
 
@@ -26,9 +35,9 @@ If the communications works well the client will responds with `pong`.
 ```
 
 
-## From client to server
+## From client to server <a id="fcts"></a>
 
-### `ping`
+### `ping` <a id="fcts-ping"></a>
 Just for test.<br/> 
 If the communications works well the server will responds with `pong`.
 
@@ -39,7 +48,17 @@ If the communications works well the server will responds with `pong`.
 << pong\r\n
 ```
 
-### `retrive-players-names`
+### `ready-to-play` <a id="fcts-ready-to-play"></a>
+Retrive `TRUE` if everyone is connected and the game is prepared, else return `FALSE`.
+
+#### Examples
+```
+>> ready-to-play\r\n
+<< ACK\n
+<< TRUE\rn
+```
+
+### `retrive-players-names` <a id="fcts-retrive-players-names"></a>
 Retrive players names.<br/>
 The players names will be retrived with the following format:
 ```
@@ -55,7 +74,7 @@ The players names will be retrived with the following format:
 << 2;bar;black\r\n
 ```
 
-### `set-player-name '`*`name`*`'`
+### `set-player-name '`*`name`*`'` <a id="fcts-set-player-name"></a>
 Set player name.<br/>
 The username must be writed beetween single quotes.
 

@@ -212,7 +212,7 @@ public class ChessLanServerSettingsInternalFrame extends JInternalFrame
                 IChessPiece.ColorEnum playerColor = playAsWhitesTranslatableRadioButton.isSelected() ? ColorEnum.WHITE : ColorEnum.BLACK;
                 int port = (int) portSpinner.getValue();
 
-                ChessLanServerFrame frame = new ChessLanServerFrame(playerName, playerColor, ipAddress, port);
+                ChessLanServerInternalFrame frame = new ChessLanServerInternalFrame(playerName, playerColor, ipAddress, port);
                 GlobalMain.mdiPane.add(frame);
                 frame.setVisible(true);
             }

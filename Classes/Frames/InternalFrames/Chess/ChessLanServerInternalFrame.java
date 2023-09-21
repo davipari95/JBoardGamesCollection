@@ -13,7 +13,7 @@ import Classes.Utils.*;
 import Interfaces.Chess.*;
 import Structs.Chess.*;
 
-public class ChessLanServerFrame extends JInternalFrame
+public class ChessLanServerInternalFrame extends JInternalFrame
 {
     JTextArea
         infoTextArea;
@@ -41,7 +41,7 @@ public class ChessLanServerFrame extends JInternalFrame
         INFOPANEL_WIDTH = 500,
         INFOLABEL_WIDTH = 270;
 
-    public ChessLanServerFrame(String firstPlayerName, IChessPiece.ColorEnum firstPlayerColor, String ipAddress, int port)
+    public ChessLanServerInternalFrame(String firstPlayerName, IChessPiece.ColorEnum firstPlayerColor, String ipAddress, int port)
     {
         super("", false, true, false, true);
 
@@ -117,7 +117,7 @@ public class ChessLanServerFrame extends JInternalFrame
             {
                 ServerSocket server = new ServerSocket(port);
                 
-                //ChessLanClientFrame frame = new ChessLanClientFrame(ipAddress, port, firstPlayerName, firstPlayerColor);
+                ChessLanClientInternalFrame frame = new ChessLanClientInternalFrame(ipAddress, port, firstPlayerName, firstPlayerColor);
 
                 Socket client = server.accept();
 
@@ -159,19 +159,22 @@ public class ChessLanServerFrame extends JInternalFrame
 
                     if (!UStrings.isNullOrEmpty(message))
                     {
-                        switch (message)
+
+                        if (message.matches("^ping$"))
                         {
-                            case "ping":
-                                returnMessage = ping();
-                                break;
-
-                            case "retrive-players-names":
-                                returnMessage = retrivePlayersNames();
-                                break;
-
-                            default:
-                                returnMessage = invalid();
-                                break;
+                            returnMessage = ping();
+                        }
+                        else if (message.matches("^retrive-players-names$"))
+                        {
+                            returnMessage = retrivePlayersNames();
+                        }
+                        else if (message.matches("^set-player-name '.{1,}'$"))
+                        {
+                            returnMessage = setPlayerName(message);
+                        }
+                        else
+                        {
+                            returnMessage = invalid();
                         }
                             
                         player.getSocketWriter().write(returnMessage);
@@ -207,6 +210,18 @@ public class ChessLanServerFrame extends JInternalFrame
             message += "\r\n";
 
             return message;
+        }
+
+        private String setPlayerName(String message)
+        {
+            int start = message.indexOf("'");
+            int end = message.lastIndexOf("'");
+
+            String nameWithoutQuotes = message.substring(start + 1, end);
+
+            player.setName(nameWithoutQuotes);
+
+            return String.format("ACK\n%s\r\n", nameWithoutQuotes);
         }
         
     }
