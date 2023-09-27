@@ -15,6 +15,7 @@ For example: `ACK\n12345\r\n`.
 - [From server to client](#fstc)
     - [`ping`](#fstc-ping)
 - [From client to server](#fcts)
+    - [`is-my-turn`](#fcts-is-my-turn)
     - [`ping`](#fcts-ping)
     - [`ready-to-play`](#fcts-ready-to-play)
     - [`retrive-players-names`](#fcts-retrive-players-names)
@@ -36,6 +37,16 @@ If the communications works well the client will responds with `pong`.
 
 
 ## From client to server <a id="fcts"></a>
+
+### `is-my-turn` <a id="fcts-is-my-turn"></a>
+Retrive `TRUE` if is client turn, otherwise return `FALSE`.
+
+#### Examples
+```
+>> is-my-turn\r\n
+<< ACK\n
+<< TRUE\r\n
+```
 
 ### `ping` <a id="fcts-ping"></a>
 Just for test.<br/> 

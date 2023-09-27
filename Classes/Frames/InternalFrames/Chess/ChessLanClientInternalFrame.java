@@ -4,8 +4,7 @@ import java.awt.Dimension;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
-
-import Classes.Global.GlobalMain;
+import Classes.Global.*;
 import Classes.Utils.*;
 import Interfaces.Chess.*;
 
