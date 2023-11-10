@@ -9,7 +9,7 @@ public class Game
 {
     ChessBoard
         chessBoard;
-    String
+    protected String
         whitesPlayerName,
         blacksPlayerName;
     IChessPiece.ColorEnum

@@ -2,6 +2,8 @@ package Structs.Chess;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
+
 import Interfaces.Chess.*;
 
 public class LanChessPlayerProperties 
@@ -18,6 +20,8 @@ public class LanChessPlayerProperties
         socketWriter;
     BufferedReader
         socketReader;
+    ArrayList<LanChessPlayerPropertiesListener>
+        lanChessPlayerPropertiesListeners = new ArrayList<>(0);
 
     public LanChessPlayerProperties(int playerNr, IChessPiece.ColorEnum playerColor, String playerName, Socket playerSocket) throws IOException
     {
@@ -57,6 +61,7 @@ public class LanChessPlayerProperties
         if (value != playerName)
         {
             playerName = value;
+            onPlayerNameChanged();
         }
     }
 
@@ -73,5 +78,28 @@ public class LanChessPlayerProperties
     public BufferedReader getSocketReader()
     {
         return socketReader;
+    }
+
+    public void addLanChessPlayerPropertiesListener(LanChessPlayerPropertiesListener listener)
+    {
+        lanChessPlayerPropertiesListeners.add(listener);
+    }
+
+    public void removeLanChessPlayerPropertiesListener(LanChessPlayerPropertiesListener listener)
+    {
+        lanChessPlayerPropertiesListeners.remove(listener);
+    }
+
+    private void onPlayerNameChanged()
+    {
+        for (LanChessPlayerPropertiesListener l : lanChessPlayerPropertiesListeners)
+        {
+            l.playerNameChanged(this);
+        }
+    }
+
+    public interface LanChessPlayerPropertiesListener 
+    {
+        public void playerNameChanged(LanChessPlayerProperties sender);
     }
 }

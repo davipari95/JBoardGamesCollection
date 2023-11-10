@@ -118,6 +118,8 @@ public class ChessLanServerInternalFrame extends JInternalFrame
                 ServerSocket server = new ServerSocket(port);
                 
                 ChessLanClientInternalFrame frame = new ChessLanClientInternalFrame(ipAddress, port, firstPlayerName, firstPlayerColor);
+                GlobalMain.mdiPane.add(frame);
+                frame.setVisible(true);
 
                 Socket client = server.accept();
 
@@ -214,10 +216,7 @@ public class ChessLanServerInternalFrame extends JInternalFrame
 
         private String setPlayerName(String message)
         {
-            int start = message.indexOf("'");
-            int end = message.lastIndexOf("'");
-
-            String nameWithoutQuotes = message.substring(start + 1, end);
+            String nameWithoutQuotes = UStrings.getStringBetweenQuotes(message)
 
             player.setName(nameWithoutQuotes);
 

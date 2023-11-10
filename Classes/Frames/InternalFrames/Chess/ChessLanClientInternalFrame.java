@@ -1,10 +1,11 @@
 package Classes.Frames.InternalFrames.Chess;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
 import Classes.Global.*;
+import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
 import Interfaces.Chess.*;
 
@@ -18,6 +19,10 @@ public class ChessLanClientInternalFrame extends JInternalFrame
         serverListener;
     boolean
         listenServer = false;
+    JLabel
+        chessboardBackGroud;
+    JGridLabel[][]
+        chessboardGridLabel;
     final int
         CHESSBOARD_SIZE = 800,
         GRID_SIZE = CHESSBOARD_SIZE / 8,
@@ -55,6 +60,28 @@ public class ChessLanClientInternalFrame extends JInternalFrame
         getContentPane().setPreferredSize(new Dimension(CHESSBOARD_SIZE, CHESSBOARD_SIZE + INFO_LABEL_HEIGHT));
         //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLayout(null);
+        //#endregion
+
+        //#region chessBoardBackGroud
+        chessboardBackGroud = new JLabel();
+        chessboardBackGroud.setBounds(0, 0, CHESSBOARD_SIZE, CHESSBOARD_SIZE);
+        chessboardBackGroud.setIcon(new ImageIcon("Data/Chess/Assets/Pictures/ChessBoard.png"));
+        chessboardBackGroud.setLayout(null);
+        add(chessboardBackGroud);
+        //#endregion
+
+        //#region chessboardGridLabel
+        chessboardGridLabel = new JGridLabel[8][8];
+        for (int i=0; i<chessboardGridLabel.length; i++)
+        {
+            for (int j=0; j<chessboardGridLabel[i].length; j++)
+            {
+                chessboardGridLabel[i][j] = new JGridLabel(i, j);
+                chessboardGridLabel[i][j].setSize(GRID_SIZE - (2 * GRID_PADDING), GRID_SIZE - (2 * GRID_PADDING));
+                chessboardGridLabel[i][j].setLocation((j * GRID_SIZE) + 10, (i * GRID_SIZE) + 10);
+                chessboardBackGroud.add(chessboardGridLabel[i][j]);
+            }
+        }
         //#endregion
 
         pack();
