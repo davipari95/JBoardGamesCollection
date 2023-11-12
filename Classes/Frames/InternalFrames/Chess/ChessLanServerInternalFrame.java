@@ -8,6 +8,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import Classes.Global.*;
+import Classes.Objects.Chess.Games.LanGame;
 import Classes.Objects.CustomComponents.*;
 import Classes.Utils.*;
 import Interfaces.Chess.*;
@@ -34,6 +35,8 @@ public class ChessLanServerInternalFrame extends JInternalFrame
         acceptFirstPlayerThread;
     HashMap<LanChessPlayerProperties, Thread>
         readersThread = new HashMap<>(0);
+    LanGame
+        game = new LanGame();
 
     int
         FRAME_WIDTH = 800,
@@ -216,9 +219,10 @@ public class ChessLanServerInternalFrame extends JInternalFrame
 
         private String setPlayerName(String message)
         {
-            String nameWithoutQuotes = UStrings.getStringBetweenQuotes(message)
+            String nameWithoutQuotes = UStrings.getStringBetweenQuotes(message);
 
             player.setName(nameWithoutQuotes);
+            game.setPlayerName(firstPlayerColor, nameWithoutQuotes);
 
             return String.format("ACK\n%s\r\n", nameWithoutQuotes);
         }
