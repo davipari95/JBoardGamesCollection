@@ -49,4 +49,11 @@ public class UStrings
         return stringWithQuotes.substring(start + 1, end);
     }
 
+    public static String[] removeTCPSeparatoStrings(String message)
+    {
+        String m = message.replace("\r\n", "");
+
+        return m.split("\n");
+    }
+
 }

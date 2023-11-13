@@ -23,6 +23,8 @@ public class ChessLanClientInternalFrame extends JInternalFrame
         chessboardBackGroud;
     JGridLabel[][]
         chessboardGridLabel;
+    String[]
+        tcpResponse = null;
     final int
         CHESSBOARD_SIZE = 800,
         GRID_SIZE = CHESSBOARD_SIZE / 8,
@@ -95,6 +97,25 @@ public class ChessLanClientInternalFrame extends JInternalFrame
         GlobalMain.sRegion.transltateComponentsInContainer(this);
     }
 
+    private void sendTCPMessage(String message)
+    {
+        socketWriter.write(message);
+        socketWriter.flush();
+    }
+
+    private boolean setTCPUsername(String username)
+    {
+        String message = String.format("set-player-name '%s'", username);
+        sendTCPMessage(message);
+
+        while (tcpResponse == null);
+
+        boolean ok = username == tcpResponse[1];
+        tcpResponse = null;
+
+        return ok;
+    }
+
     private class ListenServerRunnable implements Runnable
     {
 
@@ -115,18 +136,27 @@ public class ChessLanClientInternalFrame extends JInternalFrame
                 {
                     String msg = socketReader.readLine();
                     String response = "";
+                    boolean sendResponse = true;
 
                     if (!UStrings.isNullOrEmpty(msg))
                     {
-                        switch (msg)
+                        if (msg.matches("$ping^"))
                         {
-                            case "ping":
-                                response = "ACK\npong\r\n";
-                                socketWriter.println(response);
-                                break;
-                            default:
-                                socketWriter.println("INV\r\n");
-                                break;
+                            response = ping();
+                        }
+                        else if (msg.contains("ACK"))
+                        {
+                            tcpResponse = UStrings.removeTCPSeparatoStrings(response);
+                            sendResponse = false;
+                        }
+                        else
+                        {
+                            response = invalid();
+                        }
+
+                        if (sendResponse)
+                        {
+                            sendTCPMessage(response);
                         }
                     }
                 }
@@ -136,6 +166,16 @@ public class ChessLanClientInternalFrame extends JInternalFrame
                     //TODO: IOException -> problem reading line from server
                 }
             }
+        }
+
+        public String ping()
+        {
+            return "ACK\npong\r\n";
+        }
+
+        public String invalid()
+        {
+            return "INV\r\n";
         }
     }
 }

@@ -159,6 +159,7 @@ public class ChessLanServerInternalFrame extends JInternalFrame
             {
                 try
                 {
+                    boolean nothingToDo = false;
                     String message = player.getSocketReader().readLine();
                     String returnMessage = "";
 
@@ -177,13 +178,20 @@ public class ChessLanServerInternalFrame extends JInternalFrame
                         {
                             returnMessage = setPlayerName(message);
                         }
+                        else if (message.contains("ACK"))
+                        {
+                            nothingToDo = true;
+                        }
                         else
                         {
                             returnMessage = invalid();
                         }
-                            
-                        player.getSocketWriter().write(returnMessage);
-                        player.getSocketWriter().flush();
+                        
+                        if (!nothingToDo)
+                        {
+                            player.getSocketWriter().write(returnMessage);
+                            player.getSocketWriter().flush();
+                        }
                     }
                 }
                 catch (IOException e)
